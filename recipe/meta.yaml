@@ -6,25 +6,27 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: b277e4c1358265f3258e945c6128a667a4898332e1fe417b6c6fa7b7b8c7789a
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . -vv"
   entry_points:
     - json-lsp = json_lsp.main:main
 
 requirements:
   host:
-    - python  >=3.6
+    - python {{ python_min }}
     - pip
   run:
-    - python  >=3.6
+    - python >={{ python_min }}
     - nodejs
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - json_lsp
   commands:
